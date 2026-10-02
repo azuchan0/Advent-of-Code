@@ -8,7 +8,6 @@
 **/*.lock
 **/*.json
 **/*.TAG
-**/*.txt
 !Cargo.toml
 !Cargo.lock
 !*.rs
