@@ -1,0 +1,14 @@
+**/target/
+**/*.exe
+**/*.pdb
+**/*.d
+**/*.rmeta
+**/*.o
+**/*.bin
+**/*.lock
+**/*.json
+**/*.TAG
+**/*.txt
+!Cargo.toml
+!Cargo.lock
+!*.rs
