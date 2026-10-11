@@ -1,0 +1,26 @@
+use std::fs;
+
+fn main() {
+    let mut result = 0;
+    let file = fs::read_to_string("./input.txt").expect("file not read");
+    let file = file.replace("\r\n", "\n");
+    let sections: Vec<&str> = file.trim().split("\n\n").collect();
+    let ranges: Vec<(i64, i64)> = sections[0]
+        .lines()
+        .map(|line| {
+            let parts: Vec<&str> = line.split('-').collect();
+            (parts[0].parse().unwrap(), parts[1].parse().unwrap())
+        })
+        .collect();
+    let values: Vec<i64> = sections[1].lines().map(|l| l.parse().unwrap()).collect();
+
+    for value in &values {
+        for (min, max) in &ranges {
+            if value >= &min && value <= &max {
+                result += 1;
+                break;
+            }
+        }
+    }
+    println!("{}", result);
+}
