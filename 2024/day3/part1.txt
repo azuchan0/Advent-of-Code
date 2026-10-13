@@ -1,0 +1,21 @@
+use regex::Regex;
+use std::fs;
+
+fn main() {
+    let file = fs::read_to_string("./input.txt").expect("file not read");
+    let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
+    let mut total = 0;
+    let extracted: Vec<(u64, u64)> = re
+        .captures_iter(&file)
+        .map(|cap| {
+            let x = cap[1].parse::<u64>().unwrap();
+            let y = cap[2].parse::<u64>().unwrap();
+            (x, y)
+        })
+        .collect();
+
+    for (x, y) in &extracted {
+        total += x * y;
+        println!("{}", total);
+    }
+}

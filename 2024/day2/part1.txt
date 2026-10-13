@@ -1,0 +1,25 @@
+use std::fs;
+
+fn main() {
+    let reports = fs::read_to_string("./input.txt").expect("file not read");
+    let mut safe_count = 0;
+    for line in reports.lines() {
+        let nums: Vec<isize> = line
+            .split_whitespace()
+            .map(|n| n.parse().unwrap())
+            .collect();
+
+        let diff_ok = nums.windows(2).all(|w| {
+            let diff = (w[0] - w[1]).abs();
+            diff >= 1 && diff <= 3
+        });
+
+        let increasing = nums.windows(2).all(|w| w[0] < w[1]);
+        let decreasing = nums.windows(2).all(|w| w[0] > w[1]);
+
+        if diff_ok && (increasing || decreasing) {
+            safe_count += 1;
+        }
+    }
+    println!("{}", safe_count);
+}
