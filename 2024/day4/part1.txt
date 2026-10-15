@@ -1,0 +1,42 @@
+use std::fs;
+
+fn main() {
+    let file = fs::read_to_string("./input.txt").expect("file not read");
+    let grid: Vec<Vec<char>> = file.lines().map(|line| line.chars().collect()).collect();
+    let rows = grid.len();
+    let cols = grid[0].len();
+    let target = ['X', 'M', 'A', 'S'];
+    let dirs: [(isize, isize); 8] = [
+        (0, 1),
+        (0, -1),
+        (1, 0),
+        (-1, 0),
+        (1, 1),
+        (1, -1),
+        (-1, 1),
+        (-1, -1),
+    ];
+
+    let mut count = 0;
+
+    for r in 0..rows {
+        for c in 0..cols {
+            for &(dr, dc) in &dirs {
+                let pos: Vec<_> = (0..4)
+                    .map(|i| (r as isize + i * dr, c as isize + i * dc))
+                    .collect();
+                if pos
+                    .iter()
+                    .all(|&(nr, nc)| nr >= 0 && nr < rows as isize && nc >= 0 && nc < cols as isize)
+                    && pos
+                        .iter()
+                        .enumerate()
+                        .all(|(i, &(nr, nc))| grid[nr as usize][nc as usize] == target[i])
+                {
+                    count += 1;
+                }
+            }
+        }
+    }
+    println!("{}", count);
+}
