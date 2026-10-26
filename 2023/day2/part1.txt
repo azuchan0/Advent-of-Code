@@ -1,0 +1,39 @@
+use std::fs;
+
+fn main() {
+    let content = fs::read_to_string("./input.txt").expect("file not read");
+    let mut game_sum = 0;
+
+    for (index, line) in content.lines().enumerate() {
+        let id = index + 1;
+        let parts: Vec<&str> = line.split(':').collect();
+        if parts.len() < 2 {
+            continue;
+        }
+
+        let mut is_possible = true;
+
+        for item in parts[1].split([',', ';']) {
+            let words: Vec<&str> = item.split_whitespace().collect();
+            if words.is_empty() {
+                continue;
+            }
+
+            let count: u32 = words[0].parse().unwrap();
+            let color = words[1];
+
+            if (color == "red" && count > 12)
+                || (color == "green" && count > 13)
+                || (color == "blue" && count > 14)
+            {
+                is_possible = false;
+                break;
+            }
+        }
+
+        if is_possible {
+            game_sum += id;
+        }
+    }
+    println!("{}", game_sum);
+}
