@@ -1,0 +1,36 @@
+use std::fs;
+
+fn main() {
+    let file = fs::read_to_string("./input.txt").expect("file not found");
+    let mut total = 0;
+    for line in file.lines() {
+        let num_part = line.split(':').nth(1).expect("invalid format");
+
+        let (left_str, right_str) = num_part.split_once('|').expect("invalid format");
+
+        let left: Vec<usize> = left_str
+            .split_whitespace()
+            .filter_map(|s| s.parse().ok())
+            .collect();
+
+        let right: Vec<usize> = right_str
+            .split_whitespace()
+            .filter_map(|s| s.parse().ok())
+            .collect();
+
+        let card = (left, right);
+
+        let mut count = 0;
+        for num in &card.1 {
+            if card.0.contains(num) {
+                if count == 0 {
+                    count = 1;
+                } else {
+                    count *= 2;
+                }
+            }
+        }
+        total += count;
+    }
+    println!("{total}");
+}
